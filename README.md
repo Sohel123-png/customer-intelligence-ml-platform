@@ -7,7 +7,11 @@
 ![Celery](https://img.shields.io/badge/Celery-37814A?logo=celery&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?logo=chartdotjs&logoColor=white)
-![Status](https://img.shields.io/badge/status-portfolio%20project-blue)
+![Status](https://img.shields.io/badge/status-live%20demo-brightgreen)
+
+**🔗 [Live Demo](https://customer-intelligence-tr7l.onrender.com)** — deployed on Render, no setup required.
+
+> Note: this runs on a free Render instance, so the first request after a period of inactivity can take 30–60 seconds to wake up.
 
 An end-to-end data engineering, machine learning and MLOps project built with Django. It takes data from an external API, cleans and stores it, turns it into ML features, predicts future product stock, checks those predictions against what actually happened, watches for model drift, and shows everything in a multi-page analytics dashboard.
 
@@ -17,6 +21,7 @@ An end-to-end data engineering, machine learning and MLOps project built with Dj
 
 | | |
 |---|---|
+| **Live demo** | [customer-intelligence-tr7l.onrender.com](https://customer-intelligence-tr7l.onrender.com) |
 | **Type** | Full-stack data + ML + MLOps system |
 | **Problem** | Turn raw product and customer data into predictions, and keep those predictions trustworthy after deployment |
 | **Core flow** | Ingest → clean → snapshot → features → predict → evaluate → monitor → detect drift → retrain decision |
@@ -43,12 +48,12 @@ An end-to-end data engineering, machine learning and MLOps project built with Dj
 14. [Getting started](#getting-started)
 15. [Testing the pipeline](#testing-the-pipeline)
 16. [Troubleshooting](#troubleshooting)
-17. [Security considerations](#security-considerations)
-18. [Engineering decisions](#engineering-decisions)
-19. [Challenges and what I learned](#challenges-and-what-i-learned)
-20. [Limitations](#limitations)
-21. [Roadmap](#roadmap)
-22. [Screenshots and demo](#screenshots-and-demo)
+17. [Deployment (Render)](#deployment-render)
+18. [Security considerations](#security-considerations)
+19. [Engineering decisions](#engineering-decisions)
+20. [Challenges and what I learned](#challenges-and-what-i-learned)
+21. [Limitations](#limitations)
+22. [Roadmap](#roadmap)
 23. [Author](#author)
 
 ---
@@ -65,6 +70,7 @@ An end-to-end data engineering, machine learning and MLOps project built with Dj
 | Background processing | Celery tasks, Celery Beat schedules, Redis broker |
 | Analytics and BI | Product and customer analytics APIs, churn analysis, revenue forecast, CSV export for Power BI / Tableau |
 | Frontend | Multi-page dashboard with Chart.js visualisations, built with plain HTML, CSS and JavaScript |
+| Deployment | Live, publicly deployed on Render with environment-driven config and a health check endpoint |
 
 ---
 
@@ -81,7 +87,7 @@ An end-to-end data engineering, machine learning and MLOps project built with Dj
 | Async and scheduling | Celery, Celery Beat, Redis |
 | Databases | SQLite (development), Django ORM; PostgreSQL planned |
 | Visualisation and BI | Chart.js, CSV export for Power BI / Tableau / Excel |
-| Tools and practice | Git, GitHub, Docker (Redis), virtual environments, environment-based configuration |
+| Tools and practice | Git, GitHub, Docker (Redis), virtual environments, environment-based configuration, cloud deployment (Render) |
 
 ---
 
@@ -296,7 +302,7 @@ python manage.py export_bi_csv
 
 ## Dashboard
 
-A dark, multi-page dashboard served by Django from a single template. Pages are switched from the sidebar and can be linked directly, for example `http://127.0.0.1:8000/#products`.
+A dark, multi-page dashboard served by Django from a single template. Try it live: **[customer-intelligence-tr7l.onrender.com](https://customer-intelligence-tr7l.onrender.com)**. Pages are switched from the sidebar and can be linked directly, for example `/#products`.
 
 | Page | What it shows |
 |---|---|
@@ -366,7 +372,6 @@ churn_platform_django/
 │   ├── models.py, tasks.py, urls.py, views.py
 ├── ml_models/               # generated model artifacts (not committed)
 ├── bi_exports/              # generated CSV exports
-├── docs/                    # screenshots
 ├── manage.py
 ├── requirements.txt
 ├── build.sh, render.yaml, Procfile   # deployment
@@ -412,6 +417,8 @@ Settings that differ between machines or must stay secret are read from environm
 ---
 
 ## Getting started
+
+Want to try it without installing anything? Use the **[live demo](https://customer-intelligence-tr7l.onrender.com)** instead. To run it locally:
 
 **Quick start**
 
@@ -496,7 +503,7 @@ Development validation covered: ingestion, transformation, snapshot creation, fe
 
 ## Deployment (Render)
 
-The repo ships with `render.yaml`, `build.sh` and a `Procfile`.
+The project is live at **[customer-intelligence-tr7l.onrender.com](https://customer-intelligence-tr7l.onrender.com)**, deployed straight from this repo using `render.yaml`, `build.sh` and a `Procfile`.
 
 1. Push the repo to GitHub.
 2. Render: **New + > Blueprint**, pick the repo. Render creates the web service and a PostgreSQL database and wires `DATABASE_URL` and a generated `SECRET_KEY` for you.
@@ -579,25 +586,12 @@ The architecture is built so a real, authorized data source can replace the deve
 
 ---
 
-## Screenshots and demo
-
-| Overview | Products |
-|---|---|
-| ![Overview](docs/overview.png) | ![Products](docs/products.png) |
-
-| Stock prediction | Model monitoring |
-|---|---|
-| ![Stock prediction](docs/stock-prediction.png) | ![Model monitoring](docs/model-monitoring.png) |
-
-Demo video: [Watch the demo](YOUR_VIDEO_URL)
-
----
-
 ## Author
 
 **Sohel Ali**
 Data Science · Machine Learning · Data Engineering · MLOps
 
+- 🔗 Live demo: [customer-intelligence-tr7l.onrender.com](https://customer-intelligence-tr7l.onrender.com)
 - GitHub: [Sohel123-png](https://github.com/Sohel123-png)
 - LinkedIn: [Sohel Ali](https://www.linkedin.com/in/sohel-ali-6435253a8/)
 - Email: sayyedsohelali448@gmail.com
