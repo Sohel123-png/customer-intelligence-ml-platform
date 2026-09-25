@@ -1,3 +1,5 @@
+import math
+
 from django.http import JsonResponse
 
 from data_engineering.services.analytics import (
@@ -8,6 +10,26 @@ from data_engineering.services.analytics import (
     get_product_summary,
     get_rating_analysis,
 )
+
+
+def _clean_nan(obj):
+    """
+    Recursively replace NaN/Infinity with None.
+
+    Empty pandas groups (e.g. a discount/rating bucket with zero products in
+    it) produce NaN averages. Python's json module happily writes NaN as the
+    literal token `NaN`, which is NOT valid JSON - browsers' response.json()
+    then throws "Unexpected token 'N'" and the whole request fails, even
+    though the HTTP response itself was 200 OK. Converting NaN -> null here
+    keeps every API response valid JSON.
+    """
+    if isinstance(obj, float):
+        return None if (math.isnan(obj) or math.isinf(obj)) else obj
+    if isinstance(obj, dict):
+        return {k: _clean_nan(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_clean_nan(v) for v in obj]
+    return obj
 
 
 def test_products(request):
@@ -56,7 +78,7 @@ def product_summary(request):
             status=405,
         )
 
-    data = get_product_summary()
+    data = _clean_nan(get_product_summary())
 
     return JsonResponse(
         {
@@ -80,7 +102,7 @@ def price_analysis(request):
             status=405,
         )
 
-    data = get_price_analysis()
+    data = _clean_nan(get_price_analysis())
 
     return JsonResponse(
         {
@@ -104,7 +126,7 @@ def business_insights(request):
             status=405,
         )
 
-    data = get_business_insights()
+    data = _clean_nan(get_business_insights())
 
     return JsonResponse(
         {
@@ -130,7 +152,7 @@ def discount_analysis(request):
 
     df = get_discount_analysis()
 
-    data = df.reset_index().to_dict(orient="records")
+    data = _clean_nan(df.reset_index().to_dict(orient="records"))
 
     return JsonResponse(
         {
@@ -156,7 +178,7 @@ def rating_analysis(request):
 
     df = get_rating_analysis()
 
-    data = df.reset_index().to_dict(orient="records")
+    data = _clean_nan(df.reset_index().to_dict(orient="records"))
 
     return JsonResponse(
         {
@@ -182,7 +204,7 @@ def products(request):
 
     df = get_product_dataframe()
 
-    data = df.to_dict(orient="records")
+    data = _clean_nan(df.to_dict(orient="records"))
 
     return JsonResponse(
         {
