@@ -1,0 +1,30 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Secrets / local config
+.env
+
+# Local database
+db.sqlite3
+db.sqlite3*
+
+# Celery
+celerybeat-schedule*
+
+# Django
+staticfiles/
+
+# Generated ML artifacts (rebuilt by `python manage.py bootstrap_demo`)
+ml_models/*.joblib
+ml_models/*.json
+ml_models/backups/
+
+# Generated exports
+bi_exports/*.csv
+
+# Editors
+.vscode/
+.idea/
